@@ -30,23 +30,23 @@ export interface Human {
 
 export interface Rate {
   [key: string]: any;
-  appearance: number;
-  interpersonal: number;
+  management: number;
+  passion: number;
   communication: number;
   proferssional: number;
   ethical: number;
-  problem_solve: number;
+  global: number;
   comment: string;
   human_id?: string;
 }
 
 const emptyRate = {
-  appearance: 0,
-  interpersonal: 0,
+  management: 0,
+  passion: 0,
   communication: 0,
   proferssional: 0,
   ethical: 0,
-  problem_solve: 0,
+  global: 0,
   comment: ""
 }
 
