@@ -25,10 +25,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function login(id: string, pw: string) {
     try {
-      const authData = await pb
+      await pb
         .collection("cstomer_m")
         .authWithPassword(id, pw);
-      pb.authStore;
     } catch (e) {
       alert("이메일 또는 비밀번호를 확인하세요!");
     }
