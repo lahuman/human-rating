@@ -2,9 +2,23 @@ import { RecordModel } from "pocketbase";
 import ImageFallback from "./ImageFallback";
 import RateUI from "./RateUI";
 import { ratingList } from "./page";
+import { useEffect, useState } from "react";
+import pb from "../pb";
 
 
 export default function View({ human }: { human: RecordModel }) {
+
+    const [comments, setComments] = useState<RecordModel[]>([]);
+
+    useEffect(() => {
+        // setComments([]);
+        pb.collection('human_rating').getList(1, 100, {
+            filter: `human_id = "${human.id}" && comment != ""`,
+            sort: '-created',
+        }).then(data => {
+            setComments(data.items);
+        })
+    }, [human])
 
     return <><div className="flex justify-between mb-6">
         <div className="grid justify-items-center">
@@ -27,9 +41,6 @@ export default function View({ human }: { human: RecordModel }) {
         <div className="mb-8">
             <h2 className="text-lg font-bold mb-4">상세 설명</h2>
             <div className="text-gray-700 mb-2"> {human.etc}</div>
-            {/* <div className="text-gray-700 mb-2">123 Main St.</div>
-    <div className="text-gray-700 mb-2">Anytown, USA 12345</div>
-    <div className="text-gray-700">johndoe@example.com</div> */}
         </div>
         <table className="w-full mb-8">
             <thead>
@@ -63,8 +74,15 @@ export default function View({ human }: { human: RecordModel }) {
                 </tr>
             </tfoot>
         </table>
-        {/* <div className="text-gray-700 mb-2">재미로 평가된 항목입니다.</div> */}
-        {/* <div className="text-red-700 text-sm">공유 금지</div> */}
+
+        <div className="mb-8">
+            <h2 className="text-lg font-bold mb-4">한줄평</h2>
+            <div className="text-gray-700 mb-2">
+                <ul className="list-disc">
+                    {comments.map(c => <li>{c.comment}</li>)}
+                </ul>
+            </div>
+        </div>
 
     </>
 }
