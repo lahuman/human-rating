@@ -1,4 +1,5 @@
-import { Rate, ratingList } from "./page";
+import { Rate} from "./page";
+import { ratingList } from "./rating";
 
 export default function RateForm({ rate, setRate }: { rate: Rate, setRate: (data: Rate) => void }) {
     return <>
