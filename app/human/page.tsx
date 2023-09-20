@@ -7,7 +7,6 @@ import pb from "../pb";
 import { RecordModel } from "pocketbase";
 import ImageFallback from "./ImageFallback";
 import { useAuth } from "@/context/AuthContext";
-import rateUi from "./RateUI";
 import RateUI from "./RateUI";
 import View from "./View";
 import Form from "./Form";

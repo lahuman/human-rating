@@ -34,7 +34,7 @@ export default function Login() {
         <Image
           className="mx-auto h-10 w-auto"
           src="/logo.png"
-          alt="Your Company"
+          alt="평가 시스템"
           width={100}
           height={100}
         />
@@ -113,6 +113,19 @@ export default function Login() {
             }}
           >
             Sign in
+          </button>
+        </div>
+
+
+        <div className="pt-5">
+          <button
+            type="button"
+            className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={(e) => {
+              router.push("/signup");
+            }}
+          >
+            Sign up
           </button>
         </div>
       </div>
