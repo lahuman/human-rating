@@ -11,6 +11,7 @@ import RateUI from "./RateUI";
 import View from "./View";
 import Form from "./Form";
 import RateForm from "./RateForm";
+import { ratingList } from "./rating";
 
 enum ACTION {
   REG = "REG",
@@ -48,15 +49,6 @@ const emptyRate = {
   problem_solve: 0,
   comment: ""
 }
-
-export const ratingList = [
-  { "key": "apperance", name: '외형' },
-  { "key": "interpersonal", name: '대인관계' },
-  { "key": "communication", name: '소통' },
-  { "key": "proferssional", name: '업무' },
-  { "key": "ethical", name: '도덕성' },
-  { "key": "problem_solve", name: '문제해결' }
-]
 
 export default function Human() {
   const router = useRouter();

@@ -1,9 +1,9 @@
 import { RecordModel } from "pocketbase";
 import ImageFallback from "./ImageFallback";
 import RateUI from "./RateUI";
-import { ratingList } from "./page";
 import { useEffect, useState } from "react";
 import pb from "../pb";
+import { ratingList } from "./rating";
 
 
 export default function View({ human }: { human: RecordModel }) {
@@ -79,7 +79,7 @@ export default function View({ human }: { human: RecordModel }) {
             <h2 className="text-lg font-bold mb-4">한줄평</h2>
             <div className="text-gray-700 mb-2">
                 <ul className="list-disc">
-                    {comments.map(c => <li>{c.comment}</li>)}
+                    {comments.map(c => <li key={c.id}>{c.comment}</li>)}
                 </ul>
             </div>
         </div>

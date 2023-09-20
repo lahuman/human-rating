@@ -86,7 +86,7 @@ export default function Signup() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            {userFields.map(u => <div>
+            {userFields.map(u => <div key={u.key}>
                 <label
                     htmlFor={u.key}
                     className="block text-sm font-medium leading-6 text-gray-900"
