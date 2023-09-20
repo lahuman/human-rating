@@ -22,6 +22,37 @@ interface Human {
   etc?: string;
 }
 
+interface Rate {
+  [key: string]: any;
+  apperance: number;
+  interpersonal: number;
+  communication: number;
+  proferssional: number;
+  ethical: number;
+  problem_solve: number;
+  comment: string;
+  human_id?: string;
+}
+
+const emptyRate = {
+  apperance: 0,
+  interpersonal: 0,
+  communication: 0,
+  proferssional: 0,
+  ethical: 0,
+  problem_solve: 0,
+  comment: ""
+}
+
+const ratingList = [
+  { "key": "apperance", name: '외형' },
+  { "key": "interpersonal", name: '대인관계' },
+  { "key": "communication", name: '소통' },
+  { "key": "proferssional", name: '업무' },
+  { "key": "ethical", name: '도덕성' },
+  { "key": "problem_solve", name: '문제해결' }
+]
+
 export default function Human() {
   const router = useRouter();
 
@@ -30,6 +61,7 @@ export default function Human() {
   const [human, setHuman] = useState<RecordModel>();
   const [action, setAction] = useState<ACTION>(ACTION.REG);
   const [newHuman, setNewHuman] = useState<Human>({});
+  const [rate, setRate] = useState<Rate>(emptyRate);
 
   function rateUi(score: number) {
     return [...Array(5)].map((_, idx) => {
@@ -84,8 +116,8 @@ export default function Human() {
 
     if (newHuman.name && newHuman.name !== "" && newHuman.birth_date) {
 
-      const fileInput = document.getElementById('file_input');
-      const selectedFile = fileInput?.files[0];
+      const fileInput = document.getElementById('file_input') as HTMLInputElement;
+      const selectedFile = fileInput?.files && fileInput?.files[0];
       if (selectedFile) {
         // 첨부파일 있음
         const formData = new FormData();
@@ -102,12 +134,14 @@ export default function Human() {
     alert("이름과 생년월일은 필수 값입니다.");
     return null;
   }
+
   function resetForm() {
     setNewHuman({});
-    document.getElementById('file_input').value = "";
+    (document.getElementById('file_input') as HTMLInputElement).value = "";
     getList();
     setModalShow(false);
   }
+
   async function update() {
     const data = validNMakeData();
     if (data) {
@@ -127,7 +161,24 @@ export default function Human() {
         alert("이미 등록 된 대상입니다.");
       }
     }
+  }
 
+  async function rating() {
+    const notFillRow = ratingList.find(r => rate[r.key] === 0);
+    if (notFillRow) {
+      alert(`[${notFillRow.name}] 항목을 작성 해주세요.`);
+      return;
+    }
+
+    const record = await pb.collection('human_rating').create({
+      ...rate,
+      human_id: human?.id
+    });
+
+    setHuman(undefined);
+    setRate(emptyRate);
+    setModalShow(false);
+    getList();
   }
 
 
@@ -194,70 +245,15 @@ export default function Human() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="text-left text-gray-700">외모</td>
+                    {ratingList.map(r => <tr key={r.key}>
+                      <td className="text-left text-gray-700">{r.name}</td>
                       <td>
                         <div className="flex justify-end items-center space-x-1 mr-1">
-                          {rateUi(Math.round(human.apperance))}{" "}
-                          <span className="w-20 text-center">&nbsp; {human.apperance}</span>
+                          {rateUi(Math.round(human[r.key]))}{" "}
+                          <span className="w-20 text-center">&nbsp; {human[r.key]}</span>
                         </div>
                       </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">대인관계</td>
-                      <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {rateUi(Math.round(human.interpersonal))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.interpersonal}</span>
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">소통</td>
-                      <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {rateUi(Math.round(human.communication))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.communication}</span>
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">업무</td>
-                      <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {rateUi(Math.round(human.proferssional))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.proferssional}</span>
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">도덕성</td>
-                      <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {rateUi(Math.round(human.ethical))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.ethical}</span>
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">문제해결</td>
-                      <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {rateUi(Math.round(human.problem_solve))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.problem_solve}</span>
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
+                    </tr>)}
                   </tbody>
                   <tfoot>
                     <tr>
@@ -278,7 +274,7 @@ export default function Human() {
 
               </>
               }
-              {action === ACTION.REG || action === ACTION.MOD && <>
+              {(action === ACTION.REG || action === ACTION.MOD) && <>
 
                 <div className="mb-6">
                   <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이름</label>
@@ -333,106 +329,34 @@ export default function Human() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="text-left text-gray-700">외모</td>
-                      <td>
+                    {ratingList.map((r, ridx) => <tr key={r.key}>
+                      <td className={`text-left text-gray-700 ${(ridx + 1) % 2 == 0 ? 'bg-gray-100' : ''}`}>{r.name}</td>
+                      <td className={`${(ridx + 1) % 2 == 0 ? 'bg-gray-100' : ''}`}>
                         <div className="grid grid-cols-5 gap-1">
-                          <div className="flex justify-center">
-                             <input type="radio" value="1"/>
-                          </div>
-                          <div className="flex justify-center">
-                            <input type="radio" value="1"/>
-                          </div>
-                          <div className="flex justify-center">
-                            <input type="radio" value="1"/>
-                          </div>
-                          <div className="flex justify-center">
-                            <input type="radio" value="1"/>
-                          </div>
-                          <div className="flex justify-center">
-                            <input type="radio" value="1"/> 
-                          </div>
-                          {/* {rateUi(Math.round(human.apperance))}{" "}
-                          <span className="w-20 text-center">&nbsp; {human.apperance}</span> */}
+                          {[...Array(5)].map((a, idx) => <div className="flex justify-center" key={idx}>
+                            <input type="radio" value={idx + 1} name={r.key} onChange={e => setRate({ ...rate, [r.key]: parseInt(e.target.value) })}
+                              checked={rate[r.key] === (idx + 1) ? true : false} />
+                          </div>)}
                         </div>
                       </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">대인관계</td>
+                    </tr>)}
+                    <tr className="pt-3">
+                      <td className="text-left text-gray-700">한줄평</td>
                       <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {/* {rateUi(Math.round(human.interpersonal))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.interpersonal}</span> */}
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">소통</td>
-                      <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {/* {rateUi(Math.round(human.communication))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.communication}</span> */}
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">업무</td>
-                      <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {/* {rateUi(Math.round(human.proferssional))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.proferssional}</span> */}
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">도덕성</td>
-                      <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {/* {rateUi(Math.round(human.ethical))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.ethical}</span> */}
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left text-gray-700">문제해결</td>
-                      <td>
-                        <span className="text-gray-600 text-base">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {/* {rateUi(Math.round(human.problem_solve))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.problem_solve}</span> */}
-                          </div>
-                        </span>
+                        <input type="text" id="comment" value={rate.comment || ""} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={e => {
+                          setRate({ ...rate, comment: e.target.value });
+                        }} />
                       </td>
                     </tr>
                   </tbody>
-                  <tfoot>
-                    <tr>
-                      <td className="text-left font-bold text-gray-700">평균</td>
-                      <td >
-                        <span className="text-gray-700 font-bold">
-                          <div className="flex justify-end items-center space-x-1 mr-1">
-                            {/* {rateUi(Math.round(human.problem_solve))}{" "}
-                            <span className="w-20 text-center">&nbsp; {human.problem_solve} ({human.cnt})</span> */}
-                          </div>
-                        </span>
-                      </td>
-                    </tr>
-                  </tfoot>
                 </table>
               </>}
             </div>
             {/*  Modal footer */}
             {action === ACTION.VIEW && human && <div className="flex justify-between items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button data-modal-hide="defaultModal" type="button" className="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                onClick={e => {;
+                onClick={e => {
+                  ;
                   setAction(ACTION.RATE);
                 }}>평가</button>
               <button data-modal-hide="defaultModal" type="button" className="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
@@ -454,7 +378,7 @@ export default function Human() {
             }
             {action === ACTION.RATE && <div className="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button data-modal-hide="defaultModal" type="button" className="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                onClick={e => _}>평가</button>
+                onClick={e => rating()}>평가</button>
             </div>
             }
           </div>
@@ -509,7 +433,7 @@ export default function Human() {
                   <button
                     type="button"
                     className="flex justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={(e) => { 
+                    onClick={(e) => {
                       setHuman(data);
                       setAction(ACTION.RATE);
                       setModalShow(true);
