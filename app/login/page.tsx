@@ -15,6 +15,14 @@ export default function Login() {
     pw: "",
   });
 
+  async function tryLogin() {
+    if (login) await login(loginInfo.id, loginInfo.pw);
+
+    if(pb.authStore.isValid) {
+      router.push("/");
+    }
+  }
+
   useEffect(() => {
     if (pb.authStore.isValid) {
       router.push("/");
@@ -81,16 +89,27 @@ export default function Login() {
               onChange={(e) =>
                 setLoginInfo({ ...loginInfo, pw: e.target.value })
               }
+              onKeyDown={(e) => {
+                if (
+                    e.key === "Enter" &&
+                    e.nativeEvent.isComposing === false &&
+                    loginInfo.id.trim() !== "" && 
+                    loginInfo.pw.trim() !== ""
+                ) {
+                    e.preventDefault();
+                    tryLogin();
+                }
+            }}
             />
           </div>
         </div>
 
-        <div>
+        <div className="pt-5">
           <button
             type="button"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={(e) => {
-              if (login) login(loginInfo.id, loginInfo.pw);
+              tryLogin();
             }}
           >
             Sign in
