@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-const ImageFallback = (props) => {
+const ImageFallback = (props:any) => {
   const { src, fallbackSrc, ...others } = props;
   const [imgSrc, setImgSrc] = useState(false);
   const [oldSrc, setOldSrc] = useState(src);
