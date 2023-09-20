@@ -30,7 +30,7 @@ export interface Human {
 
 export interface Rate {
   [key: string]: any;
-  apperance: number;
+  appearance: number;
   interpersonal: number;
   communication: number;
   proferssional: number;
@@ -41,7 +41,7 @@ export interface Rate {
 }
 
 const emptyRate = {
-  apperance: 0,
+  appearance: 0,
   interpersonal: 0,
   communication: 0,
   proferssional: 0,
@@ -71,7 +71,6 @@ export default function Human() {
             setList(
               user.map((u) => {
                 const thisAvg = avg.find((a) => a.human_id === u.id);
-
                 return { ...thisAvg, ...u };
               })
             );
@@ -139,7 +138,7 @@ export default function Human() {
 
     await pb.collection('human_rating').create({
       ...rate,
-      human_id: human?.id
+      human_id: human?.id, 
     });
 
     setHuman(undefined);
