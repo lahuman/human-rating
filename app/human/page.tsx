@@ -6,6 +6,7 @@ import Image from "next/image";
 import pb from "../pb";
 import { RecordModel } from "pocketbase";
 import ImageFallback from "./ImageFallback";
+import { useAuth } from "@/context/AuthContext";
 
 enum ACTION {
   REG = "REG",
@@ -55,7 +56,7 @@ const ratingList = [
 
 export default function Human() {
   const router = useRouter();
-
+  const { logout } = useAuth();
   const [list, setList] = useState<RecordModel[]>([]);
   const [modalShow, setModalShow] = useState<boolean>(false);
   const [human, setHuman] = useState<RecordModel>();
@@ -199,7 +200,7 @@ export default function Human() {
             {/*  Modal header */}
             <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                평가 상세
+              {human && `${human.name}의`} 평가 상세
               </h3>
               <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal"
                 onClick={e => setModalShow(false)}>
@@ -385,7 +386,28 @@ export default function Human() {
         </div>
       </div>
 
+
       <div className="bg-white shadow-md rounded-md overflow-hidden max-w-lg mx-auto mt-1">
+
+        <div className="py-2 px-4 flex justify-between">
+          <h1><Image
+            className="mx-auto h-10 w-auto"
+            src="/logo.png"
+            alt="평가 시스템"
+            width={100}
+            height={100}
+          /></h1>
+          <button
+            className="flex justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={(e) => {
+              if (logout) logout();
+              router.push('/');
+            }}
+          >
+            로그아웃
+          </button>
+        </div>
+
         <div className="bg-gray-100 py-2 px-4 flex justify-between">
           <h2 className="text-xl font-semibold text-gray-800">평가 대상 목록</h2>
 

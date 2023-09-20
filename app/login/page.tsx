@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import pb from "../pb";
 
 export default function Login() {
-  const { currentUser, login } = useAuth();
+  const { login } = useAuth();
   const router = useRouter();
 
   const [loginInfo, setLoginInfo] = useState({
