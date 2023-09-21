@@ -75,7 +75,7 @@ export default function RateForm() {
                 <h3 className="flex items-center font-semibold text-gray-900 dark:text-white">
                 <ImageFallback
                     className="w-12 h-12 rounded-full object-cover mr-4"
-                    src={`https://lahuman.fly.dev/api/files/l11ys2bgupoutpf/${user.id}/${user.photo}?thumb=50x50`}
+                    src={user.photo}
                     alt="User avatar"
                     width={50}
                     height={50}
