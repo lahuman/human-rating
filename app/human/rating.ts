@@ -6,3 +6,14 @@ export const ratingList = [
     { "key": "ethical", name: '도덕성' },
     { "key": "global", name: '글로벌' }
   ];
+
+
+export const emptyRate = {
+  management: 0,
+  passion: 0,
+  communication: 0,
+  proferssional: 0,
+  ethical: 0,
+  global: 0,
+  comment: ""
+}
