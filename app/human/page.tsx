@@ -200,8 +200,8 @@ export default function Human() {
               <button data-modal-hide="defaultModal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                 onClick={async e => {
                   if (human) {
-
-                    const data = window.btoa(encodeURIComponent(`${human.id}|${human.name}`));
+                    
+                    const data = window.btoa(encodeURIComponent(`${human.id}|${human.name}|https://lahuman.fly.dev/api/files/l11ys2bgupoutpf/${human.id}/${human.photo}?thumb=50x50`));
 
                     try {
                       await navigator.clipboard.writeText(`https://human-rating.vercel.app/rate-form?data=${data}`);

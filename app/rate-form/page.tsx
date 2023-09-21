@@ -7,10 +7,12 @@ import RateFormUI from "../human/RateForm";
 import { useSearchParams } from 'next/navigation';
 import { emptyRate, ratingList } from "../human/rating";
 import pb from "../pb";
+import ImageFallback from "../human/ImageFallback";
 
 interface User {
     id?: string | null;
     name?: string | null;
+    photo?: string | null;
 }
 export default function RateForm() {
     const router = useRouter();
@@ -56,11 +58,12 @@ export default function RateForm() {
         const data = searchParams.get('data');
 
         if (data) {
-            const [id, name] = decodeURIComponent(atob(data)).split("|");
+            const [id, name, photo] = decodeURIComponent(atob(data)).split("|");
             if (hasProcess(id)) {
                 setUser({
                     id: id,
                     name: name,
+                    photo: photo
                 });
             }
         }
@@ -69,8 +72,15 @@ export default function RateForm() {
     return <>
         {user.id && <>
             <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                <h3 className=" font-semibold text-gray-900 dark:text-white">
-                    {`${user.name}님의`} 평가를 부탁드려요!
+                <h3 className="flex items-center font-semibold text-gray-900 dark:text-white">
+                <ImageFallback
+                    className="w-12 h-12 rounded-full object-cover mr-4"
+                    src={`https://lahuman.fly.dev/api/files/l11ys2bgupoutpf/${user.id}/${user.photo}?thumb=50x50`}
+                    alt="User avatar"
+                    width={50}
+                    height={50}
+                    fallbackSrc="/avatar.png"
+                  />{`${user.name}님의`} 평가를 부탁드려요!
                 </h3>
             </div>
             <RateFormUI rate={rate} setRate={setRate} />
