@@ -12,6 +12,8 @@ import View from "./View";
 import Form from "./Form";
 import RateFormUI from "./RateForm";
 import { emptyRate, ratingList } from "./rating";
+import { useLoad } from "@/context/LoadContext";
+import LoaddingUI from "../Loadding";
 
 enum ACTION {
   REG = "REG",
@@ -49,9 +51,10 @@ export default function Human() {
   const [action, setAction] = useState<ACTION>(ACTION.REG);
   const [newHuman, setNewHuman] = useState<Human>({});
   const [rate, setRate] = useState<Rate>(emptyRate);
-
+  const { setLoading, loading } = useLoad();
 
   function getList() {
+    setLoading(true);
     pb.collection("human_info")
       .getFullList({})
       .then((user) => {
@@ -64,6 +67,7 @@ export default function Human() {
                 return { ...thisAvg, ...u };
               })
             );
+            setLoading(false);
           });
       });
   }
@@ -101,6 +105,7 @@ export default function Human() {
   async function update() {
     const data = validNMakeData();
     if (data) {
+      setLoading(true);
       await pb.collection('human_info').update(String(newHuman?.id), data);
       resetForm();
     }
@@ -109,6 +114,7 @@ export default function Human() {
     try {
       const data = validNMakeData();
       if (data) {
+        setLoading(true);
         await pb.collection('human_info').create(data);
         resetForm();
       }
@@ -126,6 +132,7 @@ export default function Human() {
       return;
     }
 
+    setLoading(true);
     await pb.collection('human_rating').create({
       ...rate,
       human_id: human?.id,
@@ -148,6 +155,7 @@ export default function Human() {
   }, []);
   return (
     <>
+    {loading && <LoaddingUI />}
       {/*  Main modal */}
       <div id="defaultModal" tabIndex={-1} aria-hidden="true" className={`fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ${modalShow ? '' : 'hidden'}`}>
         <div className="relative w-full  max-h-full">
