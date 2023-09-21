@@ -10,8 +10,8 @@ import { useAuth } from "@/context/AuthContext";
 import RateUI from "./RateUI";
 import View from "./View";
 import Form from "./Form";
-import RateForm from "./RateForm";
-import { ratingList } from "./rating";
+import RateFormUI from "./RateForm";
+import { emptyRate, ratingList } from "./rating";
 
 enum ACTION {
   REG = "REG",
@@ -38,16 +38,6 @@ export interface Rate {
   global: number;
   comment: string;
   human_id?: string;
-}
-
-const emptyRate = {
-  management: 0,
-  passion: 0,
-  communication: 0,
-  proferssional: 0,
-  ethical: 0,
-  global: 0,
-  comment: ""
 }
 
 export default function Human() {
@@ -94,7 +84,7 @@ export default function Human() {
         formData.append("photo", selectedFile);
         return formData;
       } else {
-        return newHuman;
+        return { ...newHuman, sex: newHuman.sex || "M" };
       }
     }
     alert("이름과 생년월일은 필수 값입니다.");
@@ -180,7 +170,7 @@ export default function Human() {
             <div className="p-6 space-y-6">
               {action === ACTION.VIEW && human && <View human={human} />}
               {(action === ACTION.REG || action === ACTION.MOD) && <Form newHuman={newHuman} setNewHuman={setNewHuman} />}
-              {action === ACTION.RATE && <RateForm rate={rate} setRate={setRate} />}
+              {action === ACTION.RATE && <RateFormUI rate={rate} setRate={setRate} />}
             </div>
             {/*  Modal footer */}
             {action === ACTION.VIEW && human && <div className="flex justify-between items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -206,7 +196,22 @@ export default function Human() {
                 onClick={e => update()}>수정</button>
             </div>
             }
-            {action === ACTION.RATE && <div className="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+            {action === ACTION.RATE && <div className="flex justify-between items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+              <button data-modal-hide="defaultModal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                onClick={async e => {
+                  if (human) {
+
+                    const data = window.btoa(encodeURIComponent(`${human.id}|${human.name}`));
+
+                    try {
+                      await navigator.clipboard.writeText(`https://human-rating.vercel.app/rate-form?data=${data}`);
+                      alert('클립보드에 복사하였습니다.');
+                    } catch (err) {
+                      alert(`https://human-rating.vercel.app/rate-form?data=${data}`);
+                    }
+                  }
+                }}>평가 요청</button>
+
               <button data-modal-hide="defaultModal" type="button" className="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                 onClick={e => rating()}>평가</button>
             </div>
@@ -273,7 +278,7 @@ export default function Human() {
                       <span className={`text-sm`}>
                         &nbsp;<span className={` ${data.average < 2 ? 'text-red-400' : data.average < 3 ? 'text-orange-400' : data.average < 4 ? 'text-blue-400' : 'text-green-400'}`}>
                           {data.average}</span>
-                         ({data.cnt || 0})
+                        ({data.cnt || 0})
                       </span>
                     </h3>
 
