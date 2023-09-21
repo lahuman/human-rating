@@ -6,10 +6,15 @@ import pb from "../pb";
 import { ratingList } from "./rating";
 
 
+
 export default function View({ human }: { human: RecordModel }) {
 
     const [comments, setComments] = useState<RecordModel[]>([]);
-
+    function utc2kst(utcDate: string) {
+        var dateUTC = new Date(utcDate);
+        dateUTC.setHours(dateUTC.getHours() + 9);
+        return dateUTC.toISOString().replace("T", " ").replace("Z", "");
+    }
     useEffect(() => {
         // setComments([]);
         pb.collection('human_rating').getList(1, 100, {
@@ -34,7 +39,7 @@ export default function View({ human }: { human: RecordModel }) {
             <h1 className="text-lg font-bold">{human.name}</h1>
         </div>
         <div className="text-gray-700">
-            <div>Date: {human.updated}</div>
+            <div>Date: {utc2kst(human.updated)}</div>
         </div>
     </div>
 
@@ -66,8 +71,8 @@ export default function View({ human }: { human: RecordModel }) {
                     <td >
                         <span className="text-gray-700 font-bold">
                             <div className="flex justify-end items-center space-x-1 mr-1">
-                                <RateUI score={Math.round(human.problem_solve)} /> {" "}
-                                <span className="w-20 text-center">&nbsp; {human.problem_solve} ({human.cnt})</span>
+                                <RateUI score={Math.round(human.average)} /> {" "}
+                                <span className="w-20 text-center">&nbsp; {human.average} ({human.cnt})</span>
                             </div>
                         </span>
                     </td>

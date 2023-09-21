@@ -139,6 +139,7 @@ export default function Human() {
     await pb.collection('human_rating').create({
       ...rate,
       human_id: human?.id,
+      reg_user: pb.authStore.model?.id
     });
 
     setHuman(undefined);

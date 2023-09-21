@@ -1,10 +1,8 @@
 "use client";
 import React, { useContext, useState, useEffect, ReactNode } from "react";
-import { BaseAuthStore } from "pocketbase";
 import pb from "@/app/pb";
 
 export interface AuthContextType {
-  currentUser?: BaseAuthStore | null | undefined;
   login?: (id: string, pw: string) => Promise<void>;
   logout?: () => void;
 }
@@ -16,7 +14,6 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<BaseAuthStore | null>();
 
   // 로그아웃
   function logout() {
@@ -34,7 +31,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const value = {
-    currentUser,
     login,
     logout,
   };
