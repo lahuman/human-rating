@@ -8,6 +8,8 @@ import { useSearchParams } from 'next/navigation';
 import { emptyRate, ratingList } from "../human/rating";
 import pb from "../pb";
 import ImageFallback from "../human/ImageFallback";
+import { useLoad } from "@/context/LoadContext";
+import LoaddingUI from "../Loadding";
 
 interface User {
     id?: string | null;
@@ -19,8 +21,7 @@ export default function RateForm() {
     const [rate, setRate] = useState<Rate>(emptyRate);
     const searchParams = useSearchParams();
     const [user, setUser] = useState<User>({});
-
-
+    const { setLoading, loading } = useLoad();
 
     function hasProcess(id: string) {
         const item = localStorage.getItem(id);
@@ -32,11 +33,13 @@ export default function RateForm() {
         return true;
     }
     async function rating() {
+        setLoading(true);
         const id = user.id;
         if (id && hasProcess(id)) {
             const notFillRow = ratingList.find(r => rate[r.key] === 0);
             if (notFillRow) {
                 alert(`[${notFillRow.name}] 항목을 작성 해주세요.`);
+                setLoading(false);
                 return;
             }
 
@@ -52,6 +55,7 @@ export default function RateForm() {
             return;
         }
         alert("잘못된 접근 입니다.");
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -70,17 +74,18 @@ export default function RateForm() {
     }, []);
 
     return <>
+        {loading && <LoaddingUI />}
         {user.id && <>
             <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 className="flex items-center font-semibold text-gray-900 dark:text-white">
-                <ImageFallback
-                    className="w-12 h-12 rounded-full object-cover mr-4"
-                    src={user.photo}
-                    alt="User avatar"
-                    width={50}
-                    height={50}
-                    fallbackSrc="/avatar.png"
-                  />{`${user.name}님의`} 평가를 부탁드려요!
+                    <ImageFallback
+                        className="w-12 h-12 rounded-full object-cover mr-4"
+                        src={user.photo}
+                        alt="User avatar"
+                        width={50}
+                        height={50}
+                        fallbackSrc="/avatar.png"
+                    />{`${user.name}님의`} 평가를 부탁드려요!
                 </h3>
             </div>
             <RateFormUI rate={rate} setRate={setRate} />
