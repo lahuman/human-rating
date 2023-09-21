@@ -138,7 +138,7 @@ export default function Human() {
 
     await pb.collection('human_rating').create({
       ...rate,
-      human_id: human?.id, 
+      human_id: human?.id,
     });
 
     setHuman(undefined);
@@ -269,8 +269,10 @@ export default function Human() {
                   <div className="flex-1">
                     <h3 className="text-lg font-medium text-gray-800">
                       {data.name}
-                      <span className="text-sm">
-                        &nbsp;{data.average} ({data.cnt || 0})
+                      <span className={`text-sm`}>
+                        &nbsp;<span className={` ${data.average < 2 ? 'text-red-400' : data.average < 3 ? 'text-orange-400' : data.average < 4 ? 'text-blue-400' : 'text-green-400'}`}>
+                          {data.average}</span>
+                         ({data.cnt || 0})
                       </span>
                     </h3>
 
