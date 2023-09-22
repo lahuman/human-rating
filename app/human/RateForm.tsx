@@ -9,11 +9,11 @@ export default function RateFormUI({ rate, setRate }: { rate: Rate, setRate: (da
                     <th className="font-bold text-gray-700 flex justify-center">평가 항목</th>
                     <td>
                         <div className="grid grid-cols-5 gap-1">
-                            <div className="flex justify-center">1</div>
-                            <div className="flex justify-center">2</div>
-                            <div className="flex justify-center">3</div>
-                            <div className="flex justify-center">4</div>
-                            <div className="flex justify-center">5</div>
+                            <div className="flex justify-center text-xs">매우불만</div>
+                            <div className="flex justify-center text-xs">불만</div>
+                            <div className="flex justify-center text-xs">보통</div>
+                            <div className="flex justify-center text-xs">만족</div>
+                            <div className="flex justify-center text-xs">매우만족</div>
                         </div>
                     </td>
                 </tr>

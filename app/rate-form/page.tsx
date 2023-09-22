@@ -27,7 +27,7 @@ export default function RateForm() {
         const item = localStorage.getItem(id);
         if (item) {
             alert('이미 진행하셨습니다.');
-            router.back();
+            setLoading(false);
             return false;
         }
         return true;
