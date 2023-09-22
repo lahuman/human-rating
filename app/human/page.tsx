@@ -28,6 +28,7 @@ export interface Human {
   birth_date?: number;
   sex?: string;
   etc?: string;
+  photo?: string;
 }
 
 export interface Rate {
@@ -155,7 +156,7 @@ export default function Human() {
   }, []);
   return (
     <>
-    {loading && <LoaddingUI />}
+      {loading && <LoaddingUI />}
       {/*  Main modal */}
       <div id="defaultModal" tabIndex={-1} aria-hidden="true" className={`fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ${modalShow ? '' : 'hidden'}`}>
         <div className="relative w-full  max-h-full">
@@ -208,7 +209,7 @@ export default function Human() {
               <button data-modal-hide="defaultModal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                 onClick={async e => {
                   if (human) {
-                    
+
                     const data = window.btoa(encodeURIComponent(`${human.id}|${human.name}|https://lahuman.fly.dev/api/files/l11ys2bgupoutpf/${human.id}/${human.photo}?thumb=50x50`));
 
                     try {
@@ -283,7 +284,11 @@ export default function Human() {
                   />
                   <div className="flex-1">
                     <h3 className="text-lg font-medium text-gray-800">
-                      {data.name}
+                      <span onClick={(e) => {
+                        setHuman(data);
+                        setAction(ACTION.VIEW);
+                        setModalShow(true);
+                      }}>{data.name}</span>
                       <span className={`text-sm`}>
                         &nbsp;<span className={` ${data.average < 2 ? 'text-red-400' : data.average < 3 ? 'text-orange-400' : data.average < 4 ? 'text-blue-400' : 'text-green-400'}`}>
                           {data.average}</span>
@@ -310,7 +315,7 @@ export default function Human() {
                   </button>
                   <button
                     type="button"
-                    className="flex justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-3"
+                    className="flex justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-2"
                     onClick={(e) => {
                       setHuman(data);
                       setAction(ACTION.VIEW);

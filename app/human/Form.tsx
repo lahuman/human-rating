@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Human } from "./page";
 import ImageFallback from "./ImageFallback";
+import { RecordModel } from "pocketbase";
 
 export default function Form({ newHuman, setNewHuman }: { newHuman: Human, setNewHuman: (data: Human) => void }) {
     const [imgFile, setImgFile] = useState<any>(null);
@@ -19,7 +20,7 @@ export default function Form({ newHuman, setNewHuman }: { newHuman: Human, setNe
             <div className="flex items-center ">
                 <ImageFallback
                     className="w-12 h-12 rounded-full object-cover mr-4"
-                    src={imgFile ? imgFile : `https://lahuman.fly.dev/api/files/l11ys2bgupoutpf/${newHuman.id}/${newHuman.photo}?thumb=50x50`}
+                    src={imgFile ? imgFile : `https://lahuman.fly.dev/api/files/l11ys2bgupoutpf/${newHuman.id}/${newHuman.photo}?thumb=100x100`}
                     alt="User avatar"
                     width={100}
                     height={100}
