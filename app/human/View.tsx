@@ -1,6 +1,6 @@
 import { RecordModel } from "pocketbase";
 import ImageFallback from "./ImageFallback";
-import RateUI from "./RateUI";
+import RateUI from "./StarUI";
 import { useEffect, useState } from "react";
 import pb from "../pb";
 import { ratingList } from "./rating";
