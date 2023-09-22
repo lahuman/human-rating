@@ -7,7 +7,7 @@ import pb from "../pb";
 import { RecordModel } from "pocketbase";
 import ImageFallback from "./ImageFallback";
 import { useAuth } from "@/context/AuthContext";
-import RateUI from "./RateUI";
+import RateUI from "./StarUI";
 import View from "./View";
 import Form from "./Form";
 import RateFormUI from "./RateForm";
@@ -156,7 +156,6 @@ export default function Human() {
   }, []);
   return (
     <>
-      {loading && <LoaddingUI />}
       {/*  Main modal */}
       <div id="defaultModal" tabIndex={-1} aria-hidden="true" className={`fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ${modalShow ? '' : 'hidden'}`}>
         <div className="relative w-full  max-h-full">
@@ -209,9 +208,7 @@ export default function Human() {
               <button data-modal-hide="defaultModal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                 onClick={async e => {
                   if (human) {
-
                     const data = window.btoa(encodeURIComponent(`${human.id}|${human.name}|https://lahuman.fly.dev/api/files/l11ys2bgupoutpf/${human.id}/${human.photo}?thumb=50x50`));
-
                     try {
                       await navigator.clipboard.writeText(`https://human-rating.vercel.app/rate-form?data=${data}`);
                       alert('클립보드에 복사하였습니다.');
@@ -284,7 +281,7 @@ export default function Human() {
                   />
                   <div className="flex-1">
                     <h3 className="text-lg font-medium text-gray-800">
-                      <span onClick={(e) => {
+                      <span className="cursor-pointer" onClick={(e) => {
                         setHuman(data);
                         setAction(ACTION.VIEW);
                         setModalShow(true);
@@ -329,6 +326,7 @@ export default function Human() {
             })}
         </ul>
       </div>
+      {loading && <LoaddingUI />}
     </>
   );
 }

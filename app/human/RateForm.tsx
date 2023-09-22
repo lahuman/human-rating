@@ -34,7 +34,7 @@ export default function RateFormUI({ rate, setRate }: { rate: Rate, setRate: (da
                     <td className="flex items-center justify-center text-gray-700 ">한줄평</td>
                     <td>
                         <input type="text" id="comment" value={rate.comment || ""}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={e => {
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={e => {
                                 setRate({ ...rate, comment: e.target.value });
                             }} />
                     </td>
