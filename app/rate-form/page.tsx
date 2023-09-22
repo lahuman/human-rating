@@ -50,7 +50,7 @@ export default function RateForm() {
 
             localStorage.setItem(id, id);
             setRate(emptyRate);
-            alert('평가가 반영되었습니다.');
+            alert('평가에 참여해주셔서 감사합니다.\n메인으로 이동합니다.');
             setLoading(false);
             router.push("/");
             return;
