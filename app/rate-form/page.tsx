@@ -51,6 +51,7 @@ export default function RateForm() {
             localStorage.setItem(id, id);
             setRate(emptyRate);
             alert('평가가 반영되었습니다.');
+            setLoading(false);
             router.push("/");
             return;
         }
