@@ -28,6 +28,7 @@ export default function RateForm() {
         if (item) {
             alert('이미 진행하셨습니다.');
             setLoading(false);
+            router.push(`/rate-view?data=${searchParams.get('data')}`);
             return false;
         }
         return true;
@@ -50,9 +51,9 @@ export default function RateForm() {
 
             localStorage.setItem(id, id);
             setRate(emptyRate);
-            alert('평가에 참여해주셔서 감사합니다.\n메인으로 이동합니다.');
+            alert('평가에 참여해주셔서 감사합니다.');
             setLoading(false);
-            router.push("/");
+            router.push(`/rate-view?data=${searchParams.get('data')}`);
             return;
         }
         alert("잘못된 접근 입니다.");
