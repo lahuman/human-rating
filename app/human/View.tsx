@@ -25,7 +25,7 @@ export default function View({ human }: { human: RecordModel }) {
         })
     }, [human])
 
-    return <div className=" bg-white"><div className="flex justify-between mb-6">
+    return <><div className="flex justify-between mb-6">
         <div className="grid justify-items-center">
             <ImageFallback
                 className="w-200 h-200 object-cover mr-4"
@@ -89,5 +89,5 @@ export default function View({ human }: { human: RecordModel }) {
             </div>
         </div>
 
-    </div>
+    </>
 }
