@@ -26,9 +26,15 @@ export default function RateForm() {
 
     async function getRateResult(human_id: string) {
         setLoading(true);
-        const result = await pb.collection('personal_average').getFirstListItem(`human_id="${human_id}"`, {
-        });
-        setRate(result);
+        try {
+            const result = await pb.collection('personal_average').getFirstListItem(`human_id="${human_id}"`, {
+            });
+            console.log(result)
+            setRate(result);
+        } catch (e) {
+            console.log(e)
+            alert('조회된 대상이 없습니다.');
+        }
         setLoading(false);
     }
     useEffect(() => {
