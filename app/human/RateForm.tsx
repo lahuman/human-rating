@@ -2,7 +2,7 @@ import { Rate } from "./page";
 import { ratingList } from "./rating";
 
 export default function RateFormUI({ rate, setRate }: { rate: Rate, setRate: (data: Rate) => void }) {
-    return <>
+    return <div className="bg-white">
         <table className="w-full mb-2">
             <thead>
                 <tr className="bg-gray-300">
@@ -41,5 +41,5 @@ export default function RateFormUI({ rate, setRate }: { rate: Rate, setRate: (da
                 </tr>
             </tbody>
         </table>
-    </>
+    </div>
 }
