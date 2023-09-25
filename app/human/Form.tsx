@@ -9,7 +9,7 @@ export default function Form({ newHuman, setNewHuman }: { newHuman: Human, setNe
     useEffect(() => {
         setImgFile(null);
     }, []);
-    return <><div className="mb-6">
+    return <div className=" bg-white"><div className="mb-6">
         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이름</label>
         <input type="text" id="name" value={newHuman.name || ""} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={e => {
             setNewHuman({ ...newHuman, name: e.target.value });
@@ -67,5 +67,5 @@ export default function Form({ newHuman, setNewHuman }: { newHuman: Human, setNe
                 setNewHuman({ ...newHuman, etc: e.target.value });
             }} />
         </div>
-    </>
+    </div>
 }
