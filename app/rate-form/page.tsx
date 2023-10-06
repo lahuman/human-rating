@@ -78,8 +78,8 @@ export default function RateForm() {
     return <>
         {loading && <LoaddingUI />}
         {user.id && <div className="max-w-md m-2">
-            <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                <h3 className="flex items-center font-semibold text-gray-900 dark:text-white">
+            <div className="flex items-start justify-between p-4 border-b rounded-t ">
+                <h3 className="flex items-center font-semibold text-gray-900 ">
                     <ImageFallback
                         className="w-12 h-12 rounded-full object-cover mr-4"
                         src={user.photo}
@@ -91,8 +91,8 @@ export default function RateForm() {
                 </h3>
             </div>
             <RateFormUI rate={rate} setRate={setRate} />
-            <div className="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button data-modal-hide="defaultModal" type="button" className="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+            <div className="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b ">
+                <button data-modal-hide="defaultModal" type="button" className="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10 "
                     onClick={e => rating()}>등록</button>
             </div>
         </div>}
