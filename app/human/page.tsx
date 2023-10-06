@@ -86,10 +86,11 @@ export default function Human() {
         formData.append("birth_date", String(newHuman.birth_date) || "0");
         formData.append("sex", newHuman.sex || "M");
         formData.append("etc", newHuman.etc || "");
+        formData.append("user_id", pb.authStore.model?.id);
         formData.append("photo", selectedFile);
         return formData;
       } else {
-        return { ...newHuman, sex: newHuman.sex || "M" };
+        return { ...newHuman, sex: newHuman.sex || "M", user_id: pb.authStore.model?.id };
       }
     }
     alert("이름과 생년월일은 필수 값입니다.");
