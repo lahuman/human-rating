@@ -8,17 +8,17 @@ export async function GET(
     `https://lahuman.fly.dev/api/collections/holiday/records?perPage=500&filter=(year=${params.year})`,
     {
       headers: {
-        x_token: process.env.TOKEN,
+        x_token: process.env.TOKEN as string,
       },
     }
   );
   const { items } = await holidayList.json();
   return Response.json({
     holidays: items
-      .map((i) => ({
+      .map((i:any) => ({
         name: i.name,
         date: i.date,
       }))
-      .sort((a, b) => a.date - b.date),
+      .sort((a:any, b:any) => a.date - b.date),
   });
 }
