@@ -12,6 +12,7 @@ export async function GET(
       },
     }
   );
+  
   const { items } = await holidayList.json();
   return Response.json({
     holidays: items
