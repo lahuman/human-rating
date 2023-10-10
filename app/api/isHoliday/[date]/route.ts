@@ -39,6 +39,7 @@ export async function GET(
     const holidayList = await fetch(
       `https://lahuman.fly.dev/api/collections/holiday/records?perPage=500&filter=(date='${params.date}')`,
       {
+        cache: 'no-store',
         headers: {
           x_token: process.env.TOKEN as string,
         },
