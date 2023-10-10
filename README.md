@@ -1,4 +1,4 @@
-# [평가 시스템 UI](https://human-rating.vercel.app/login)
+# [평가 시스템 UI](https://lahuman.vercel.app/login)
 
 
 토이 프로젝트로 진행하는 평가 시스템입니다. 
