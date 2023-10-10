@@ -35,11 +35,12 @@ export async function GET(
 ) {
   try {
     const isWeekend = isWeekendFromString(params.date);
+    
     const holidayList = await fetch(
       `https://lahuman.fly.dev/api/collections/holiday/records?perPage=500&filter=(date='${params.date}')`,
       {
         headers: {
-          x_token: process.env.TOKEN,
+          x_token: process.env.TOKEN as string,
         },
       }
     );
