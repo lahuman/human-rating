@@ -2,8 +2,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { LoadProvider, useLoad } from "@/context/LoadContext";
-import { useEffect } from "react";
+import { LoadProvider } from "@/context/LoadContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
