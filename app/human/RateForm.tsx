@@ -2,7 +2,7 @@ import { Rate } from "./page";
 import { ratingList } from "./rating";
 
 export default function RateFormUI({ rate, setRate }: { rate: Rate, setRate: (data: Rate) => void }) {
-    const handleRating = (key, value) => {
+    const handleRating = (key: string, value: number) => {
         setRate({ ...rate, [key]: value });
     };
 
