@@ -2,44 +2,39 @@ import { Rate } from "./page";
 import { ratingList } from "./rating";
 
 export default function RateFormUI({ rate, setRate }: { rate: Rate, setRate: (data: Rate) => void }) {
-    return <>
-        <table className="w-full mb-2">
-            <thead>
-                <tr className="bg-gray-300">
-                    <th className="font-bold text-gray-700 flex justify-center">평가 항목</th>
-                    <td>
-                        <div className="grid grid-cols-5 gap-1">
-                            <div className="flex justify-center text-xs">매우불만</div>
-                            <div className="flex justify-center text-xs">불만</div>
-                            <div className="flex justify-center text-xs">보통</div>
-                            <div className="flex justify-center text-xs">만족</div>
-                            <div className="flex justify-center text-xs">매우만족</div>
-                        </div>
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
-                {ratingList.map((r, ridx) => <tr key={r.key} className={`${(ridx + 1) % 2 == 0 ? 'bg-gray-200' : ''}`}>
-                    <td className={`text-gray-700 flex justify-center`}>{r.name}</td>
-                    <td >
-                        <div className="grid grid-cols-5 gap-1">
-                            {[...Array(5)].map((a, idx) => <div className="flex justify-center" key={idx}>
-                                <input type="radio" value={idx + 1} name={r.key} onChange={e => setRate({ ...rate, [r.key]: parseInt(e.target.value) })}
-                                    checked={rate[r.key] === (idx + 1) ? true : false} />
-                            </div>)}
-                        </div>
-                    </td>
-                </tr>)}
-                <tr>
-                    <td className="flex items-center justify-center text-gray-700 ">한줄평</td>
-                    <td>
-                        <input type="text" id="comment" value={rate.comment || ""}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full " onChange={e => {
-                                setRate({ ...rate, comment: e.target.value });
-                            }} />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </>
+    const handleRating = (key, value) => {
+        setRate({ ...rate, [key]: value });
+    };
+
+    return (
+        <div className="w-full p-4">
+            {ratingList.map((item, index) => (
+                <div key={item.key} className={`py-2 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} flex items-center`}>
+                    <div className="font-semibold text-gray-800 flex-1">{item.name}</div>
+                    <div className="flex justify-center gap-1">
+                        {[...Array(5)].map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => handleRating(item.key, idx + 1)}
+                                className={`h-10 w-10 rounded-full ${rate[item.key] > idx ? 'text-yellow-500' : 'text-gray-400'}`}
+                                aria-label={`Rate ${item.name} ${idx + 1} stars`}
+                            >
+                                &#9733; {/* Unicode star character */}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            ))}
+            <div className="py-4">
+                <label htmlFor="comment" className="block font-semibold text-gray-700">한줄평</label>
+                <textarea
+                    id="comment"
+                    rows={3}
+                    value={rate.comment || ""}
+                    className="form-textarea mt-1 block w-full border-2 border-gray-400 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                    onChange={e => setRate({ ...rate, comment: e.target.value })}
+                ></textarea>
+            </div>
+        </div>
+    );
 }
