@@ -211,10 +211,10 @@ export default function Human() {
                   if (human) {
                     const data = window.btoa(encodeURIComponent(`${human.id}|${human.name}|https://lahuman.fly.dev/api/files/l11ys2bgupoutpf/${human.id}/${human.photo}?thumb=50x50`));
                     try {
-                      await navigator.clipboard.writeText(`https://human-rating.vercel.app/rate-form?data=${data}`);
+                      await navigator.clipboard.writeText(`https://lahuman.vercel.app/rate-form?data=${data}`);
                       alert('클립보드에 복사하였습니다.');
                     } catch (err) {
-                      alert(`https://human-rating.vercel.app/rate-form?data=${data}`);
+                      alert(`https://lahuman.vercel.app/rate-form?data=${data}`);
                     }
                   }
                 }}>평가 요청</button>
