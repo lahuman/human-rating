@@ -158,8 +158,9 @@ export default function Human() {
   return (
     <>
       {/*  Main modal */}
-      <div id="defaultModal" tabIndex={-1} aria-hidden="true" className={`fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ${modalShow ? '' : 'hidden'}`}>
-        <div className="relative w-full  max-h-full">
+
+      <div id="defaultModal" tabIndex={-1} aria-hidden="true" className={`backdrop fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ${modalShow ? '' : 'hidden'}`}>
+        <div className="modal relative w-full  max-h-full">
           {/*  Modal content */}
           <div className="relative bg-white rounded-lg shadow ">
             {/*  Modal header */}
