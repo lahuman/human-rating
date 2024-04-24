@@ -75,61 +75,61 @@ export default function Signup() {
             setLoading(false);
             return;
         }
+        setLoading(false);
         alert('가입이 완료 되었습니다.');
         router.push('/')
         // await pb.collection('cstomer_m').requestVerification(newUser.email);
 
     }
     return <>
-        {loading && <LoaddingUI />}<div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-white">
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <Image
-                    className="mx-auto h-10 w-auto"
-                    src="/logo.png"
-                    alt="평가 시스템"
-                    width={100}
-                    height={100}
-                />
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                    평가 시스템 회원 가입
-                </h2>
-            </div>
-
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                {userFields.map(u => <div key={u.key}>
-                    <label
-                        htmlFor={u.key}
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                        {u.name}
-                    </label>
-                    <div className="mt-2">
-                        <input
-                            id={u.key}
-                            name={u.key}
-                            type={u.type}
-                            autoComplete={u.key}
-                            required
-                            className="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            value={newUser[u.key]}
-                            onChange={(e) =>
-                                setNewUser({ ...newUser, [u.key]: e.target.value })
-                            }
-                        />
-                    </div>
-                </div>)}
-
-
-                <div className="pt-5">
-                    <button
-                        type="button"
-                        className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        onClick={(e) => {
-                            signup();
-                        }}>
-                        Sign up
-                    </button>
+        {loading && <LoaddingUI />}
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-700 px-4 py-12 lg:px-8">
+            <div className="w-full max-w-md space-y-8">
+                <div className="flex flex-col items-center">
+                    <Image
+                        className="h-12 w-auto"
+                        src="/logo.png"
+                        alt="평가 시스템"
+                        width={100}
+                        height={100}
+                    />
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-100">
+                        Create your account
+                    </h2>
                 </div>
+                <form className="mt-8 space-y-6" action="#" method="POST">
+                    {userFields.map(u => (
+                        <div key={u.key} className="flex items-center space-x-3">
+                            <label htmlFor={u.key} className="block text-sm font-medium text-gray-100 w-1/3">
+                                {u.name}
+                            </label>
+                            <input
+                                id={u.key}
+                                name={u.key}
+                                type={u.type}
+                                autoComplete={u.key}
+                                required
+                                className="flex-1 block w-full appearance-none rounded-md border border-transparent px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                value={newUser[u.key]}
+                                onChange={(e) =>
+                                    setNewUser({ ...newUser, [u.key]: e.target.value })
+                                }
+                            />
+                        </div>
+                    ))}
+
+                    <div>
+                        <button
+                            type="button"
+                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={(e) => {
+                                signup();
+                            }}>
+                            Sign Up
+                        </button>
+                    </div>
+                </form>
             </div>
-        </div></>;
+        </div>
+    </>;
 }
