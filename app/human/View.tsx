@@ -73,7 +73,7 @@ export default function View({ human }: { human: RecordModel }) {
                     <td className="py-2">
                         <div className="flex justify-end items-center space-x-1 mr-1">
                             <RateUI score={Math.round(human.average)} />
-                            <span className="text-gray-900 font-bold">{human.average.toFixed(1)} ({human.cnt})</span>
+                            <span className="text-gray-900 font-bold">{human.average?.toFixed(1)} ({human.cnt})</span>
                         </div>
                     </td>
                 </tr>
