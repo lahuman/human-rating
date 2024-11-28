@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -289,18 +290,11 @@ export default function Human() {
         </div>
       </div>
 
+
       {/* Main container */}
       <div className="bg-white text-black shadow-md rounded-md overflow-hidden max-w-lg mx-auto mt-4">
-        <div className="py-2 px-4 flex justify-between">
-          <h1>
-            <Image
-              className="mx-auto h-10 w-auto"
-              src="/logo.png"
-              alt="평가 시스템"
-              width={100}
-              height={100}
-            />
-          </h1>
+        <div className="py-2 px-4 flex justify-between items-center bg-gray-200">
+          <h1 className="text-lg font-semibold">평가 시스템</h1>
           <button
             className="flex justify-center rounded-md bg-red-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
             onClick={(e) => {
@@ -312,9 +306,8 @@ export default function Human() {
           </button>
         </div>
 
-        <div className="bg-gray-100 py-2 px-4 flex justify-between">
+        <div className="bg-gray-100 py-2 px-4 flex justify-between items-center">
           <h2 className="text-xl font-semibold text-gray-900">평가 대상 목록</h2>
-
           <button
             className="flex justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
             onClick={(e) => {
@@ -327,6 +320,7 @@ export default function Human() {
             대상 추가
           </button>
         </div>
+
         {list && list.length === 0 && (
           <div className="bg-gray-100 py-2 px-4 flex justify-center">
             <button
@@ -342,12 +336,20 @@ export default function Human() {
             </button>
           </div>
         )}
+
         <ul className="divide-y divide-gray-200">
           {list &&
             list.map((data, idx) => {
               return (
-                <li key={data.id} className="flex items-center py-4 px-6">
-                  <span className="text-gray-900 text-lg font-medium mr-4">{idx + 1}.</span>
+                <li
+                  key={data.id}
+                  className="flex items-center py-4 px-4 hover:bg-gray-50 cursor-pointer"
+                  onClick={(e) => {
+                    setHuman(data);
+                    setAction(ACTION.VIEW);
+                    setModalShow(true);
+                  }}
+                >
                   <ImageFallback
                     className="w-12 h-12 rounded-full object-cover mr-4"
                     src={`https://lahuman.fly.dev/api/files/l11ys2bgupoutpf/${data.id}/${data.photo}?thumb=50x50`}
@@ -358,18 +360,10 @@ export default function Human() {
                   />
                   <div className="flex-1">
                     <h3 className="text-lg font-medium text-gray-900">
-                      <span
-                        className="cursor-pointer"
-                        onClick={(e) => {
-                          setHuman(data);
-                          setAction(ACTION.VIEW);
-                          setModalShow(true);
-                        }}
-                      >
-                        {data.name}
-                      </span>
-                      <span className={`text-sm`}>
-                        &nbsp;
+                      {data.name}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {data.average && (
                         <span
                           className={`${
                             data.average < 2
@@ -381,40 +375,11 @@ export default function Human() {
                               : "text-green-400"
                           }`}
                         >
-                          {data.average}
+                          ★ {data.average} ({data.cnt || 0})
                         </span>
-                        ({data.cnt || 0})
-                      </span>
-                    </h3>
-
-                    <span className="text-gray-600 text-base">
-                      <div className="flex items-center space-x-1">
-                        <RateUI score={Math.round(data.average)} />{" "}
-                      </div>
-                    </span>
+                      )}
+                    </p>
                   </div>
-                  <button
-                    type="button"
-                    className="flex justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                    onClick={(e) => {
-                      setHuman(data);
-                      setAction(ACTION.RATE);
-                      setModalShow(true);
-                    }}
-                  >
-                    평가
-                  </button>
-                  <button
-                    type="button"
-                    className="flex justify-center rounded-md bg-yellow-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 ml-2"
-                    onClick={(e) => {
-                      setHuman(data);
-                      setAction(ACTION.VIEW);
-                      setModalShow(true);
-                    }}
-                  >
-                    상세
-                  </button>
                 </li>
               );
             })}
